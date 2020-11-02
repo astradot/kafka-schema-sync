@@ -4,8 +4,8 @@
   "description": "kafka",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && node dist/app.js --config test-config.yaml --basedir ~/tmpcode/gen-test",
-    "start": "tsc && node dist/app.js",
+    "test": "tsc && node dist/app.js --config test-config.yaml --kdir ~/tmpcode/gen-test",
+    "start": "tsc && node dist/app.js --help",
     "clean": "rm -rf dist/",
     "compile": "rm -rf dist/ && tsc",
     "doPublish": "npm run compile && npm publish"

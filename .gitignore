@@ -3,6 +3,7 @@
 *.iws
 *.iml
 *.ipr
+kafka-config.sh
 
 .vscode/
 

@@ -1,0 +1,8 @@
+bootstrapServers: "hi:9092"
+replication: 3
+topics:
+  - name: user-events
+    retentionHours: 4
+  - name: server-metrics
+    retentionHours: 48
+    compression: gzip

@@ -5,6 +5,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const yargs = require('yargs');
 const {resolve} = require("path");
+const dedent = require('dedent-js');
 
 interface ICLIOptions {
     config: string,
@@ -55,7 +56,7 @@ function createBashFile(commandList: string[], toolsBaseDir: string) {
     `;
 
     const filename = "kafka-config.sh";
-    fs.writeFile(filename, bashContents, (err: any) => {
+    fs.writeFile(filename, dedent(bashContents), (err: any) => {
         if (err) throw err;
         console.log(chalk.green(`Done writing bash file ${chalk.white(filename)}`)); // Success
     });
