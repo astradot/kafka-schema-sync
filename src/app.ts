@@ -23,16 +23,21 @@ interface IYamlConfig {
     topics: IKafaTopicConfig[],
 }
 
-function createKafkaCommand(topic: IKafaTopicConfig, kafka: IYamlConfig)
-{
-    const compression = topic.compression? topic.compression : "zstd";
-    const retentionMs = hoursToMs(topic.retentionHours);
-
-    return `$KTOOLS_HOME/kafka-topics.sh -bootstrap-server "${kafka.bootstrapServers}" --create --replication-factor ${kafka.replication}  --config compression.type=${compression} --topic ${topic.name}`;
+function hoursToMs(hours: number) {
+    const minutes = hours * 60;
+    const seconds = minutes * 60;
+    const ms = seconds * 1000;
+    return ms;
 }
 
-function main()
-{
+function createKafkaCommand(topic: IKafaTopicConfig, kafka: IYamlConfig) {
+    const compression = topic.compression ? topic.compression : "zstd";
+    const retentionMs = hoursToMs(topic.retentionHours);
+
+    return `$KTOOLS_HOME/kafka-topics.sh -bootstrap-server "${kafka.bootstrapServers}" --create --replication-factor ${kafka.replication}  --config compression.type=${compression} --config retention.ms=${retentionMs} --topic ${topic.name}`;
+}
+
+function main() {
     const options: ICLIOptions = yargs
         .usage("Usage: --config <config.yaml>")
         .option("c", {alias: "config", describe: "configuration yaml", type: "string", demandOption: true})
@@ -52,14 +57,6 @@ function main()
 
     const yamlContents = fs.readFileSync(yamlFile);
     const data: IYamlConfig = yaml.safeLoad(yamlContents);
-}
-
-function hoursToMs(hours: number)
-{
-    const minutes = hours * 60;
-    const seconds = minutes * 60;
-    const ms = seconds * 1000;
-    return ms;
 }
 
 // main();
