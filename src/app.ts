@@ -37,6 +37,25 @@ function createKafkaCommand(topic: IKafaTopicConfig, kafka: IYamlConfig) {
     return `$KTOOLS_HOME/kafka-topics.sh -bootstrap-server "${kafka.bootstrapServers}" --create --replication-factor ${kafka.replication}  --config compression.type=${compression} --config retention.ms=${retentionMs} --topic ${topic.name}`;
 }
 
+
+function createBashFile(commandList: string[], toolsBaseDir: string)
+{
+    const cmdContents = commandList.join("\n\n");
+
+    const bashContents = `
+            #!/bin/bash
+            
+            # https://twitter.com/b0rk/status/1314345978963648524/photo/1
+            set -euo pipefail
+            
+            KTOOLS_HOME=${toolsBaseDir}
+            
+            ${cmdContents}
+            
+            echo "All Kafka Config Done"
+    `;
+}
+
 function main() {
     const options: ICLIOptions = yargs
         .usage("Usage: --config <config.yaml>")
@@ -59,7 +78,4 @@ function main() {
     const data: IYamlConfig = yaml.safeLoad(yamlContents);
 }
 
-// main();
-
-console.log(hoursToMs(48));
-console.log(hoursToMs(4));
+main();
