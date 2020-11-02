@@ -48,7 +48,7 @@ function createBashFile(commandList: string[], toolsBaseDir: string) {
             # https://twitter.com/b0rk/status/1314345978963648524/photo/1
             set -euo pipefail
             
-            KTOOLS_HOME=${toolsBaseDir}
+            KTOOLS_HOME='${toolsBaseDir}'
             
             ${cmdContents}
             
