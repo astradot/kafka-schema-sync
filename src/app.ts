@@ -13,6 +13,7 @@ interface ICLIOptions {
 
 interface IKafaTopicConfig {
     name: string;
+    retentionHours: number;
     compression?: string;
 }
 
@@ -20,6 +21,14 @@ interface IYamlConfig {
     bootstrapServers: string,
     replication: number,
     topics: IKafaTopicConfig[],
+}
+
+function createKafkaCommand(topic: IKafaTopicConfig, kafka: IYamlConfig)
+{
+    const compression = topic.compression? topic.compression : "zstd";
+    const retentionMs = hoursToMs(topic.retentionHours);
+
+    return `$KTOOLS_HOME/kafka-topics.sh -bootstrap-server "${kafka.bootstrapServers}" --create --replication-factor ${kafka.replication}  --config compression.type=${compression} --topic ${topic.name}`;
 }
 
 function main()
@@ -45,4 +54,15 @@ function main()
     const data: IYamlConfig = yaml.safeLoad(yamlContents);
 }
 
-main();
+function hoursToMs(hours: number)
+{
+    const minutes = hours * 60;
+    const seconds = minutes * 60;
+    const ms = seconds * 1000;
+    return ms;
+}
+
+// main();
+
+console.log(hoursToMs(48));
+console.log(hoursToMs(4));
