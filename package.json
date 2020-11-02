@@ -1,6 +1,6 @@
 {
   "name": "@astradot-private/kafka-config-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "kafka",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "node": ">=0.14"
   },
   "bin": {
-    "du-conf-gen": "./dist/app.js"
+    "kafka-conf-gen": "./dist/app.js"
   },
   "files": [
     "dist"
