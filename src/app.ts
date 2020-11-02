@@ -38,8 +38,7 @@ function createKafkaCommand(topic: IKafaTopicConfig, kafka: IYamlConfig) {
 }
 
 
-function createBashFile(commandList: string[], toolsBaseDir: string)
-{
+function createBashFile(commandList: string[], toolsBaseDir: string) {
     const cmdContents = commandList.join("\n\n");
 
     const bashContents = `
@@ -54,6 +53,12 @@ function createBashFile(commandList: string[], toolsBaseDir: string)
             
             echo "All Kafka Config Done"
     `;
+
+    const filename = "kafka-config.sh";
+    fs.writeFile(filename, bashContents, (err: any) => {
+        if (err) throw err;
+        console.log(chalk.green(`Done writing bash file ${chalk.white(filename)}`)); // Success
+    });
 }
 
 function main() {
@@ -75,7 +80,11 @@ function main() {
     }
 
     const yamlContents = fs.readFileSync(yamlFile);
-    const data: IYamlConfig = yaml.safeLoad(yamlContents);
+    const kafkaConfig: IYamlConfig = yaml.safeLoad(yamlContents);
+
+    const topicCmds = kafkaConfig.topics.map(topic => createKafkaCommand(topic, kafkaConfig));
+
+    createBashFile(topicCmds, kDir);
 }
 
 main();
