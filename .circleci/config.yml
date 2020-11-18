@@ -16,6 +16,7 @@ jobs:
             npm publish
       - astradot-ci/slack-notify:
           msg: NPM Publish
+          buildOnTag: true
 
 workflows:
   build:
