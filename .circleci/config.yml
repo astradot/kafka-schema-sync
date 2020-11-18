@@ -1,0 +1,31 @@
+version: 2.1
+
+orbs:
+  astradot-ci: astradot/circleci-orb-internal-ci-util@1
+
+jobs:
+  publish:
+    docker:
+      - image: cimg/node:14.15
+    steps:
+      - checkout
+      - run:
+          name: npm publish
+          command: |
+            curl -u$JFROG_USER:$JFROG_PASS https://astradot.jfrog.io/artifactory/api/npm/dev-npm/auth/astradot-private > ~/.npmrc
+            npm publish
+      - slack-notify:
+          msg: NPM Publish
+
+workflows:
+  build:
+    jobs:
+      - publish:
+          context:
+            - global
+            - prod-deploy
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
