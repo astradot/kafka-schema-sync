@@ -49,14 +49,20 @@ async function main() {
         brokers: kafkaConfig.bootstrapServers.split(",")
     });
 
-    const admin = kafka.admin()
+    const admin = kafka.admin();
 
-    console.log("Connecting to Kafka...")
-    await admin.connect()
-    console.log("Connected to Kafka...")
-    await admin.disconnect()
+    console.log("Connecting to Kafka...");
+    try {
+        await admin.connect();
+        console.log("Connected to Kafka...");
 
-    console.log("Done")
+        const existingTopics = await admin.listTopics();
+        console.log(existingTopics);
+    } finally {
+        await admin.disconnect();
+    }
+
+    console.log("Done");
 }
 
 main();
