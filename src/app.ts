@@ -102,14 +102,10 @@ async function main() {
         console.log("Connected to Kafka...");
 
         const existingTopics = await admin.listTopics();
-        console.log(existingTopics);
 
         for (const topic of kafkaConfig.topics) {
             await createTopic(kafkaConfig, topic, existingTopics, admin);
         }
-
-        console.log(await admin.listTopics());
-
     } finally {
 
         await admin.disconnect();
