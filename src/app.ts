@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import {Admin} from "kafkajs";
+import {Admin, ConfigResourceTypes} from "kafkajs";
 
 const yaml = require('js-yaml');
 const fs = require('fs');
@@ -32,22 +32,40 @@ function hoursToMs(hours: number) {
     return ms;
 }
 
-async function createTopic(mainConfig: IYamlConfig, config: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
-    if (!existingTopics.includes(config.name)) {
+async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
+    if (!existingTopics.includes(topicConfig.name)) {
         await admin.createTopics({
             topics: [
                 {
-                    topic: config.name,
+                    topic: topicConfig.name,
                     replicationFactor: mainConfig.replication,
                     configEntries: [
-                        {name: "retention.ms", value: `${hoursToMs(config.retentionHours)}`},
-                        {name: "compression.type", value: config.compression},
+                        {name: "retention.ms", value: `${hoursToMs(topicConfig.retentionHours)}`},
+                        {name: "compression.type", value: topicConfig.compression},
                     ]
                 }
             ]
         });
 
-        console.log(`created topic ${config.name}`)
+        console.log(`created topic ${topicConfig.name}`);
+    }
+    else {
+        console.log(`topic already exists: ${topicConfig.name}`);
+        await admin.alterConfigs( {
+            validateOnly: false,
+            resources : [
+                {
+                    type: ConfigResourceTypes.TOPIC,
+                    name: topicConfig.name,
+                    configEntries: [
+                        {name: "retention.ms", value: `${hoursToMs(topicConfig.retentionHours)}`},
+                        {name: "compression.type", value: topicConfig.compression!},
+                    ]
+                }
+            ]
+        });
+
+        console.log(`updated topic config: ${topicConfig.name}`);
     }
 }
 
