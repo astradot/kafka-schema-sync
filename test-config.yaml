@@ -1,5 +1,5 @@
-bootstrapServers: "hi:9092"
-replication: 3
+bootstrapServers: "localhost:9092"
+replication: 1
 defaultCompression: "zstd"
 topics:
   - name: user-events

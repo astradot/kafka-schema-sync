@@ -4,7 +4,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const chalk = require('chalk');
 const yargs = require('yargs');
-const {resolve} = require("path");
+const { Kafka } = require('kafkajs')
 
 interface ICLIOptions {
     config: string,
@@ -30,7 +30,7 @@ function hoursToMs(hours: number) {
     return ms;
 }
 
-function main() {
+async function main() {
     const options: ICLIOptions = yargs
         .usage("Usage: --config <config.yaml>")
         .option("c", {alias: "config", describe: "configuration yaml", type: "string", demandOption: true})
@@ -43,6 +43,20 @@ function main() {
     }
     const yamlContents = fs.readFileSync(yamlFile);
     const kafkaConfig: IYamlConfig = yaml.safeLoad(yamlContents);
+
+    const kafka = new Kafka({
+        clientId: 'config-generator-app',
+        brokers: kafkaConfig.bootstrapServers.split(",")
+    });
+
+    const admin = kafka.admin()
+
+    console.log("Connecting to Kafka...")
+    await admin.connect()
+    console.log("Connected to Kafka...")
+    await admin.disconnect()
+
+    console.log("Done")
 }
 
 main();
