@@ -4,7 +4,7 @@
   "description": "kafka",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && node dist/app.js --config test-config.yaml --kdir ~/tmpcode/gen-test",
+    "test": "tsc && node dist/app.js --config test-config.yaml",
     "start": "tsc && node dist/app.js --help",
     "clean": "rm -rf dist/",
     "compile": "rm -rf dist/ && tsc",

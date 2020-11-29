@@ -1,5 +1,6 @@
 bootstrapServers: "hi:9092"
 replication: 3
+defaultCompression: "zstd"
 topics:
   - name: user-events
     retentionHours: 4
