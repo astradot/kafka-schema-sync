@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 
+import {Admin} from "kafkajs";
+
 const yaml = require('js-yaml');
 const fs = require('fs');
 const chalk = require('chalk');
 const yargs = require('yargs');
-const { Kafka } = require('kafkajs')
+const {Kafka} = require('kafkajs')
 
 interface ICLIOptions {
     config: string,
@@ -30,6 +32,20 @@ function hoursToMs(hours: number) {
     return ms;
 }
 
+async function createTopic(config: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
+    if (!existingTopics.includes(config.name)) {
+        await admin.createTopics({
+            topics: [
+                {
+                    topic: config.name
+                }
+            ]
+        });
+
+        console.log(`created topic ${config.name}`)
+    }
+}
+
 async function main() {
     const options: ICLIOptions = yargs
         .usage("Usage: --config <config.yaml>")
@@ -44,12 +60,18 @@ async function main() {
     const yamlContents = fs.readFileSync(yamlFile);
     const kafkaConfig: IYamlConfig = yaml.safeLoad(yamlContents);
 
+    for (const topic of kafkaConfig.topics) {
+        if (!topic.compression) {
+            topic.compression = kafkaConfig.defaultCompression;
+        }
+    }
+
     const kafka = new Kafka({
         clientId: 'config-generator-app',
         brokers: kafkaConfig.bootstrapServers.split(",")
     });
 
-    const admin = kafka.admin();
+    const admin: Admin = kafka.admin();
 
     console.log("Connecting to Kafka...");
     try {
@@ -58,7 +80,15 @@ async function main() {
 
         const existingTopics = await admin.listTopics();
         console.log(existingTopics);
+
+        for (const topic of kafkaConfig.topics) {
+            await createTopic(topic, existingTopics, admin);
+        }
+
+        console.log(await admin.listTopics());
+
     } finally {
+
         await admin.disconnect();
     }
 
