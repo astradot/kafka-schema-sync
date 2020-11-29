@@ -32,12 +32,17 @@ function hoursToMs(hours: number) {
     return ms;
 }
 
-async function createTopic(config: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
+async function createTopic(mainConfig: IYamlConfig, config: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
     if (!existingTopics.includes(config.name)) {
         await admin.createTopics({
             topics: [
                 {
-                    topic: config.name
+                    topic: config.name,
+                    replicationFactor: mainConfig.replication,
+                    configEntries: [
+                        {name: "retention.ms", value: `${hoursToMs(config.retentionHours)}`},
+                        {name: "compression.type", value: config.compression},
+                    ]
                 }
             ]
         });
@@ -82,7 +87,7 @@ async function main() {
         console.log(existingTopics);
 
         for (const topic of kafkaConfig.topics) {
-            await createTopic(topic, existingTopics, admin);
+            await createTopic(kafkaConfig, topic, existingTopics, admin);
         }
 
         console.log(await admin.listTopics());
