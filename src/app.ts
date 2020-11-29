@@ -8,8 +8,6 @@ const {resolve} = require("path");
 
 interface ICLIOptions {
     config: string,
-    kdir: string,
-    outfile: string;
 }
 
 interface IKafaTopicConfig {
