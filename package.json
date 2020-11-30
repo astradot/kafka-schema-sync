@@ -1,6 +1,6 @@
 {
-  "name": "@astradot-private/kafka-config-generator",
-  "version": "1.4.1",
+  "name": "@astradot-private/kafka-schema-sync",
+  "version": "1.5.0",
   "description": "kafka",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/astradot/kafka-config-generator.git"
+    "url": "git+ssh://git@bitbucket.org/astradot/kafka-schema-sync.git"
   },
   "engines": {
     "node": ">=0.14"
@@ -25,7 +25,7 @@
   ],
   "author": "pdeva",
   "license": "UNLICENSED",
-  "homepage": "https://bitbucket.org/astradot/kafka-config-generator#readme",
+  "homepage": "https://github.com/astradot/kafka-schema-sync",
   "devDependencies": {
     "typescript": "4.0.5"
   },
@@ -35,7 +35,6 @@
     "@types/node": "^14.14.6",
     "@types/yargs": "^15.0.9",
     "chalk": "^4.1.0",
-    "dedent-js": "^1.0.1",
     "js-yaml": "^3.14.0",
     "kafkajs": "^1.15.0",
     "yargs": "^16.1.0"
