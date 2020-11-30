@@ -1,6 +1,6 @@
 # kafka-schema-sync
 
-[![NPM](https://nodei.co/npm/@astradot/kafka-schema-sync.png?mini=true)](https://npmjs.org/package/@astradot/kafka-schema-sync)
+[![npm version](https://badge.fury.io/js/%40astradot%2Fkafka-schema-sync.svg)](https://badge.fury.io/js/%40astradot%2Fkafka-schema-sync)
 
 This tool was designed at Astradot to keep our Kafka topics in sync across staging and prod environments.  
 
