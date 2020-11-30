@@ -26,9 +26,9 @@ npm install --global @astradot/kafka-schema-sync
  ## Sample Config
  
  ```yml
-bootstrapServers: "localhost:9092"
+bootstrapServers: "localhost:9092,localhost:9091"
 replication: 3
-defaultCompression: "zstd"
+defaultCompression: zstd
 topics:
   - name: server-metrics
     retentionHours: 12
