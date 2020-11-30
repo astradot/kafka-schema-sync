@@ -12,9 +12,9 @@ jobs:
       - run:
           name: npm publish
           command: |
-            curl -u$JFROG_USER:$JFROG_PASS https://astradot.jfrog.io/artifactory/api/npm/dev-npm/auth/astradot-private > ~/.npmrc
             npm ci
             npm run compile
+            echo "//registry.npmjs.org/:_authToken=$NPM_PUBLIC_AUTH_TOKEN" > ~/.npmrc
             npm publish
       - astradot-ci/slack-notify:
           msg: NPM Publish

@@ -1,5 +1,5 @@
 {
-  "name": "@astradot-private/kafka-schema-sync",
+  "name": "@astradot/kafka-schema-sync",
   "version": "1.5.0",
   "description": "kafka",
   "main": "index.js",
@@ -24,7 +24,7 @@
     "dist"
   ],
   "author": "pdeva",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "homepage": "https://github.com/astradot/kafka-schema-sync",
   "devDependencies": {
     "typescript": "4.0.5"
