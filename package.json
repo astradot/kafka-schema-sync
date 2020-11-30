@@ -1,6 +1,6 @@
 {
   "name": "@astradot/kafka-schema-sync",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "kafka",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/astradot/kafka-schema-sync.git"
+    "url": "git@github.com:astradot/kafka-schema-sync.git"
   },
   "engines": {
     "node": ">=0.14"
