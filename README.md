@@ -1,6 +1,7 @@
 # kafka-schema-sync
 
-This tool was designed at Astradot to keep our Kafka topics in sync across staging and prod environments.
+This tool was designed at Astradot to keep our Kafka topics in sync across staging and prod environments.  
+
 [Read blog post](https://blog.astradot.com/kafka-schema-sync-keep-your-kafka-topics-synced/) for details.
 
 
