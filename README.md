@@ -34,5 +34,6 @@ topics:
     retentionHours: 12
   - name: user-events
     retentionHours: 48
+    compression: gzip
 
 ```
