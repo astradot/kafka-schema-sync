@@ -1,6 +1,6 @@
 {
   "name": "@astradot/kafka-schema-sync",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "kafka",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "node": ">=0.14"
   },
   "bin": {
-    "kafka-conf-gen": "./dist/app.js"
+    "kafka-schema-sync": "./dist/app.js"
   },
   "files": [
     "dist"
