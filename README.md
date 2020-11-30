@@ -30,6 +30,8 @@ bootstrapServers: "localhost:9092"
 replication: 3
 defaultCompression: "zstd"
 topics:
+  - name: server-metrics
+    retentionHours: 12
   - name: user-events
     retentionHours: 48
 
