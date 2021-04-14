@@ -14,7 +14,8 @@ interface ICLIOptions {
 
 interface IKafaTopicConfig {
     name: string;
-    retentionHours: number;
+    retentionHours?: number;
+    retentionMinutes?: number;
     compression?: string;
 }
 
@@ -27,12 +28,28 @@ interface IYamlConfig {
 
 function hoursToMs(hours: number) {
     const minutes = hours * 60;
+    return minutesToMs(minutes);
+}
+
+function minutesToMs(minutes: number) {
     const seconds = minutes * 60;
     const ms = seconds * 1000;
     return ms;
 }
 
 async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
+    if(!topicConfig.retentionMinutes && !topicConfig.retentionHours) {
+        console.log(`No retention period specified for topic ${topicConfig.name}`);
+        return;
+    }
+
+    let retentionMs =0;
+    if(topicConfig.retentionHours) {
+        retentionMs = hoursToMs(topicConfig.retentionHours);
+    } else {
+        retentionMs = minutesToMs(topicConfig.retentionMinutes!);
+    }
+
     if (!existingTopics.includes(topicConfig.name)) {
         await admin.createTopics({
             topics: [
@@ -40,7 +57,7 @@ async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfi
                     topic: topicConfig.name,
                     replicationFactor: mainConfig.replication,
                     configEntries: [
-                        {name: "retention.ms", value: `${hoursToMs(topicConfig.retentionHours)}`},
+                        {name: "retention.ms", value: `${retentionMs}`},
                         {name: "compression.type", value: topicConfig.compression},
                     ]
                 }
@@ -58,7 +75,7 @@ async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfi
                     type: ConfigResourceTypes.TOPIC,
                     name: topicConfig.name,
                     configEntries: [
-                        {name: "retention.ms", value: `${hoursToMs(topicConfig.retentionHours)}`},
+                        {name: "retention.ms", value: `${retentionMs}`},
                         {name: "compression.type", value: topicConfig.compression!},
                     ]
                 }
