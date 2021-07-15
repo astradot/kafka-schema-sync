@@ -32,7 +32,7 @@
   "dependencies": {
     "@types/js-yaml": "^3.12.5",
     "@types/node": "^14.14.6",
-    "@types/yargs": "^15.0.9",
+    "@types/yargs": "^15.0.13",
     "chalk": "^4.1.0",
     "js-yaml": "^3.14.0",
     "kafkajs": "^1.15.0",
