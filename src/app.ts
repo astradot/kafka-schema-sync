@@ -50,6 +50,8 @@ async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfi
         retentionMs = minutesToMs(topicConfig.retentionMinutes!);
     }
 
+    const compression =  topicConfig.compression ? topicConfig.compression : mainConfig.defaultCompression;
+
     if (!existingTopics.includes(topicConfig.name)) {
         await admin.createTopics({
             topics: [
@@ -58,7 +60,7 @@ async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfi
                     replicationFactor: mainConfig.replication,
                     configEntries: [
                         {name: "retention.ms", value: `${retentionMs}`},
-                        {name: "compression.type", value: topicConfig.compression},
+                        {name: "compression.type", value: compression},
                     ]
                 }
             ]
@@ -76,7 +78,7 @@ async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfi
                     name: topicConfig.name,
                     configEntries: [
                         {name: "retention.ms", value: `${retentionMs}`},
-                        {name: "compression.type", value: topicConfig.compression!},
+                        {name: "compression.type", value: compression},
                     ]
                 }
             ]
@@ -99,12 +101,6 @@ async function main() {
     }
     const yamlContents = fs.readFileSync(yamlFile);
     const kafkaConfig: IYamlConfig = yaml.safeLoad(yamlContents);
-
-    for (const topic of kafkaConfig.topics) {
-        if (!topic.compression) {
-            topic.compression = kafkaConfig.defaultCompression;
-        }
-    }
 
     const kafka = new Kafka({
         clientId: 'config-generator-app',

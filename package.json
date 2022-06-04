@@ -27,15 +27,15 @@
   "license": "MIT",
   "homepage": "https://github.com/astradot/kafka-schema-sync",
   "devDependencies": {
-    "typescript": "4.0.5"
+    "typescript": "4.7.3"
   },
   "dependencies": {
-    "@types/js-yaml": "^3.12.5",
-    "@types/node": "^14.14.6",
-    "@types/yargs": "^15.0.9",
-    "chalk": "^4.1.0",
-    "js-yaml": "^3.14.0",
-    "kafkajs": "^1.15.0",
-    "yargs": "^16.1.0"
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^17.0.39",
+    "@types/yargs": "^17.0.10",
+    "chalk": "^5.0.1",
+    "js-yaml": "^4.1.0",
+    "kafkajs": "^2.0.2",
+    "yargs": "^17.5.1"
   }
 }
