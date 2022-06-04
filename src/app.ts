@@ -4,7 +4,7 @@ import {Admin, ConfigResourceTypes} from "kafkajs";
 
 const yaml = require('js-yaml');
 const fs = require('fs');
-const chalk = require('chalk');
+import chalk from 'chalk';
 const yargs = require('yargs');
 const {Kafka} = require('kafkajs')
 
