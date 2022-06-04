@@ -1,9 +1,8 @@
 {
   "name": "@astradot/kafka-schema-sync",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "description": "kafka",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "tsc && node dist/app.js --config test-config.yaml",
     "start": "tsc && node dist/app.js --help",
@@ -34,7 +33,7 @@
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^17.0.39",
     "@types/yargs": "^17.0.10",
-    "chalk": "^5.0.1",
+    "chalk": "^4.1.2",
     "js-yaml": "^4.1.0",
     "kafkajs": "^2.0.2",
     "yargs": "^17.5.1"
