@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import {Admin, ConfigResourceTypes} from "kafkajs";
+import chalk from 'chalk';
 
 const yaml = require('js-yaml');
 const fs = require('fs');
-import chalk from 'chalk';
 const yargs = require('yargs');
 const {Kafka} = require('kafkajs')
 
@@ -33,8 +33,7 @@ function hoursToMs(hours: number) {
 
 function minutesToMs(minutes: number) {
     const seconds = minutes * 60;
-    const ms = seconds * 1000;
-    return ms;
+    return seconds * 1000;
 }
 
 async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfig, existingTopics: string[], admin: Admin) {
@@ -43,7 +42,7 @@ async function createTopic(mainConfig: IYamlConfig, topicConfig: IKafaTopicConfi
         return;
     }
 
-    let retentionMs =0;
+    let retentionMs;
     if(topicConfig.retentionHours) {
         retentionMs = hoursToMs(topicConfig.retentionHours);
     } else {
