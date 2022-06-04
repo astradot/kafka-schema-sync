@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-import {Admin, ConfigResourceTypes} from "kafkajs";
+import {Admin, ConfigResourceTypes, Kafka} from "kafkajs";
 import chalk from 'chalk';
 
 const yaml = require('js-yaml');
 const fs = require('fs');
 const yargs = require('yargs');
-const {Kafka} = require('kafkajs')
 
 interface ICLIOptions {
     config: string,
