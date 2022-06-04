@@ -6,7 +6,7 @@ orbs:
 jobs:
   publish:
     docker:
-      - image: cimg/node:14.15
+      - image: cimg/node:16.15
     steps:
       - checkout
       - run:
