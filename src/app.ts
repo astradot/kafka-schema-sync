@@ -98,7 +98,7 @@ async function main() {
         return;
     }
     const yamlContents = fs.readFileSync(yamlFile);
-    const kafkaConfig: IYamlConfig = yaml.safeLoad(yamlContents);
+    const kafkaConfig: IYamlConfig = yaml.load(yamlContents);
 
     const kafka = new Kafka({
         clientId: 'config-generator-app',
